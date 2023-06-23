@@ -58,7 +58,6 @@ Overlay::Overlay()
 void RenderingThread()
 {
 	static auto ds = CanvasObject->SwapChain->CreateDrawingSession(Colors::Transparent);
-
 	ds->Clear(Colors::Transparent);
 
 	/* RENDER*/
@@ -66,14 +65,15 @@ void RenderingThread()
 	std::wstring wideText(test.begin(), test.end());
 	Platform::String^ text = ref new Platform::String(wideText.c_str());
 	ds->DrawText(text, 0, 0, Colors::Red);
+	//if(Window::Current->CoreWindow->GetAsyncKeyState(VirtualKey::LeftButton) == CoreVirtualKeyStates::Down)
+	ds->FillRectangle(0, sdk::WindowHeight - 50, sdk::WindowWidth,50,Colors::Red);
 
-	/*END OF RENDERING*/
-//	ds->FillRectangle(0,0, sdk::WindowWidth, sdk::WindowHeight,Colors::White);
+
+
+
 
 	ds->Flush();
-
 	CanvasObject->SwapChain->Present();
-
 }
 
 
@@ -87,7 +87,7 @@ void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI:
 	//lets use this it is way better for what we want
 	sdk::WindowWidth = (float)Window::Current->CoreWindow->Bounds.Width;
 	sdk::WindowHeight = (float)Window::Current->CoreWindow->Bounds.Height;
-
+	
 	std::thread RenderThread(RenderingThread);
 	RenderThread.detach();
 
