@@ -9,14 +9,14 @@
  IgnorableNamespaces="uap uap3 mp">
 
   <Identity
-    Name="Cheat.ch"
+    Name="overlay"
     Publisher="CN=Cheat"
     Version="1.0.27.0" />
 
   <mp:PhoneIdentity PhoneProductId="0d4864f4-b4f5-48c2-a868-7d6275202a7b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Cheat.ch</DisplayName>
+    <DisplayName>overlay</DisplayName>
     <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -34,13 +34,14 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="Cheat.App">
       <uap:VisualElements
-        DisplayName="Cheat.ch"
+        DisplayName="Overlay"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Cheat.ch"
-        BackgroundColor="transparent">
+        BackgroundColor="transparent" Description="Overlay Program">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/></uap:InitialRotationPreference>
       </uap:VisualElements>
       <Extensions>
         <uap3:Extension Category="windows.appExtension">
