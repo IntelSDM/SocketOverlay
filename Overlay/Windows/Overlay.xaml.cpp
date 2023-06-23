@@ -45,13 +45,13 @@ Overlay::Overlay()
 	InitializeComponent();
 
 	// Hide Title Bar
-	auto  _coreTitleBar = CoreApplication::GetCurrentView()->TitleBar;
-	_coreTitleBar->ExtendViewIntoTitleBar = true;
-	auto _TitleBar = ApplicationView::GetForCurrentView()->TitleBar;
-	_TitleBar->ButtonBackgroundColor = Colors::Transparent;
-	_TitleBar->ButtonInactiveBackgroundColor = Colors::Transparent;
-	_TitleBar->ButtonPressedBackgroundColor = Colors::Transparent;
-	_TitleBar->ButtonHoverBackgroundColor = Colors::Transparent;
+	auto  coretitlebar = CoreApplication::GetCurrentView()->TitleBar;
+	coretitlebar->ExtendViewIntoTitleBar = true;
+	auto titlebar = ApplicationView::GetForCurrentView()->TitleBar;
+	titlebar->ButtonBackgroundColor = Colors::Transparent;
+	titlebar->ButtonInactiveBackgroundColor = Colors::Transparent;
+	titlebar->ButtonPressedBackgroundColor = Colors::Transparent;
+	titlebar->ButtonHoverBackgroundColor = Colors::Transparent;
 }
 
 //You can just pass the CanvasObject directly into this but I used it in other places also
@@ -65,7 +65,7 @@ void RenderingThread()
 	std::wstring wideText(test.begin(), test.end());
 	Platform::String^ text = ref new Platform::String(wideText.c_str());
 	ds->DrawText(text, 0, 0, Colors::Red);
-	//if(Window::Current->CoreWindow->GetAsyncKeyState(VirtualKey::LeftButton) == CoreVirtualKeyStates::Down)
+	//
 	ds->FillRectangle(0, sdk::WindowHeight - 50, sdk::WindowWidth,50,Colors::Red);
 
 
@@ -76,7 +76,10 @@ void RenderingThread()
 	CanvasObject->SwapChain->Present();
 }
 
-
+void InputThread(CoreWindow corewindw)
+{
+	
+}
 void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	canvasSwapChainPanel->SwapChain = ref new CanvasSwapChain(CanvasDevice::GetSharedDevice(), (float)Window::Current->CoreWindow->Bounds.Width, 
@@ -87,8 +90,11 @@ void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI:
 	//lets use this it is way better for what we want
 	sdk::WindowWidth = (float)Window::Current->CoreWindow->Bounds.Width;
 	sdk::WindowHeight = (float)Window::Current->CoreWindow->Bounds.Height;
-	
-	std::thread RenderThread(RenderingThread);
-	RenderThread.detach();
+
+
+	std::thread renderthread(RenderingThread);
+	renderthread.detach();
+	std::thread inputthread(InputThread);
+	inputthread.detach();
 
 }
