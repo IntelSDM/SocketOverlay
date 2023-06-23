@@ -7,17 +7,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="Windows\App.xaml" />
+    <ApplicationDefinition Include="App.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.xaml.cpp" />
-    <ClCompile Include="Misc\Pch\pch.cpp" />
-    <ClCompile Include="Misc\Input.cpp" />
+    <ClCompile Include="Widget1.xaml.cpp" />
+    <ClCompile Include="pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.xaml.h" />
-    <ClInclude Include="Misc\Pch\pch.h" />
-    <ClInclude Include="Misc\Input.h" />
+    <ClInclude Include="Widget1.xaml.h" />
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png">
@@ -160,12 +160,12 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Misc\Configs\Package.appxmanifest" />
+    <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Windows\Overlay.xaml" />
+    <Page Include="Overlay.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Misc\Configs\packages.config" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

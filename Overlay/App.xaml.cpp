@@ -80,20 +80,17 @@ void App::OnActivated(Windows::ApplicationModel::Activation::IActivatedEventArgs
             // Create Game Bar widget object which bootstraps the connection with Game Bar
             m_Overlay = ref new XboxGameBarWidget(widgetArgs, Window::Current->CoreWindow, rootFrame);
            
-    //        m_Overlay->VerticalResizeSupported = true;
-  //          m_Overlay->HorizontalResizeSupported = true;
+            m_Overlay->VerticalResizeSupported = true;
+            m_Overlay->HorizontalResizeSupported = true;
 
             float width = GetSystemMetrics(SM_CXSCREEN);
             float height = GetSystemMetrics(SM_CYSCREEN);
 
+            m_Overlay->MinWindowSize = Windows::Foundation::Size(width, height - 40);
+            m_Overlay->MaxWindowSize = Windows::Foundation::Size(7680, 4320);
 
             m_Overlay->CenterWindowAsync();
             m_Overlay->TryResizeWindowAsync(Windows::Foundation::Size(width, height - 40));
-            ApplicationView^ currentView = ApplicationView::GetForCurrentView();
-            if (!currentView->IsFullScreenMode)
-            {
-                currentView->TryEnterFullScreenMode();
-            }
 
             rootFrame->Navigate(TypeName(Overlay::typeid), nullptr);
 
