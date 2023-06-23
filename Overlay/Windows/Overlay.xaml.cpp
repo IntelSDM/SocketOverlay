@@ -3,6 +3,7 @@
 #include <TlHelp32.h>
 #include <thread>
 #include <string>
+
 using namespace std;
 
 using namespace Cheat;
@@ -52,36 +53,33 @@ Overlay::Overlay()
 	titlebar->ButtonPressedBackgroundColor = Colors::Transparent;
 	titlebar->ButtonHoverBackgroundColor = Colors::Transparent;
 }
-bool clicked = false;
-int i = 0;
+
 //You can just pass the CanvasObject directly into this but I used it in other places also
-void RenderingThread(CoreWindow^ corewindow)
+void RenderingThread()
 {
 	static auto ds = CanvasObject->SwapChain->CreateDrawingSession(Colors::Transparent);
-	while (true)
-	{
-		ds->Clear(Colors::Transparent);
-		i++;
-		/* RENDER*/
-		std::string test = std::to_string(i) + "x" + std::to_string(sdk::WindowHeight);
-		std::wstring wideText(test.begin(), test.end());
-		Platform::String^ text = ref new Platform::String(wideText.c_str());
+	ds->Clear(Colors::Transparent);
 
-		ds->DrawText(text, 0, 0, Colors::Red);
-
-		
-		ds->FillRectangle(0, sdk::WindowHeight - 50, sdk::WindowWidth, 50, Colors::Red);
+	/* RENDER*/
+	std::string test = std::to_string(sdk::WindowWidth) + "x" + std::to_string(sdk::WindowHeight);
+	std::wstring wideText(test.begin(), test.end());
+	Platform::String^ text = ref new Platform::String(wideText.c_str());
+	ds->DrawText(text, 0, 0, Colors::Red);
+	//
+	ds->FillRectangle(0, sdk::WindowHeight - 50, sdk::WindowWidth,50,Colors::Red);
 
 
 
 
 
-		ds->Flush();
-		CanvasObject->SwapChain->Present();
-	}
+	ds->Flush();
+	CanvasObject->SwapChain->Present();
 }
 
-
+void InputThread(CoreWindow corewindw)
+{
+	
+}
 void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	canvasSwapChainPanel->SwapChain = ref new CanvasSwapChain(CanvasDevice::GetSharedDevice(), (float)Window::Current->CoreWindow->Bounds.Width, 
@@ -93,10 +91,10 @@ void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI:
 	sdk::WindowWidth = (float)Window::Current->CoreWindow->Bounds.Width;
 	sdk::WindowHeight = (float)Window::Current->CoreWindow->Bounds.Height;
 
-	Window::Current->CoreWindow->IsInputEnabled = true;
 
-	std::thread renderthread(RenderingThread, Window::Current->CoreWindow);
+	std::thread renderthread(RenderingThread);
 	renderthread.detach();
-	
+	std::thread inputthread(InputThread);
+	inputthread.detach();
 
 }
