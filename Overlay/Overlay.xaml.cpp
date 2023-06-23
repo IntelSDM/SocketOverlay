@@ -2,6 +2,7 @@
 #include "Overlay.xaml.h"
 #include <TlHelp32.h>
 #include <thread>
+#include <string>
 
 using namespace std;
 
@@ -29,6 +30,7 @@ using namespace Windows::Foundation;
 using namespace Windows::UI::Core;
 using namespace Windows::System;
 using namespace Windows::UI::ViewManagement;
+using namespace Windows::ApplicationModel::Core;
 
 Microsoft::Graphics::Canvas::UI::Xaml::CanvasSwapChainPanel^ CanvasObject;
 
@@ -41,6 +43,15 @@ namespace sdk
 Overlay::Overlay()
 {
 	InitializeComponent();
+
+	// Hide Title Bar
+	auto  _coreTitleBar = CoreApplication::GetCurrentView()->TitleBar;
+	_coreTitleBar->ExtendViewIntoTitleBar = true;
+	auto _TitleBar = ApplicationView::GetForCurrentView()->TitleBar;
+	_TitleBar->ButtonBackgroundColor = Colors::Transparent;
+	_TitleBar->ButtonInactiveBackgroundColor = Colors::Transparent;
+	_TitleBar->ButtonPressedBackgroundColor = Colors::Transparent;
+	_TitleBar->ButtonHoverBackgroundColor = Colors::Transparent;
 }
 
 //You can just pass the CanvasObject directly into this but I used it in other places also
@@ -51,16 +62,18 @@ void RenderingThread()
 	ds->Clear(Colors::Transparent);
 
 	/* RENDER*/
+	std::string test = std::to_string(sdk::WindowWidth) + "x" + std::to_string(sdk::WindowHeight);
+	std::wstring wideText(test.begin(), test.end());
+	Platform::String^ text = ref new Platform::String(wideText.c_str());
+	ds->DrawText(text, 0, 0, Colors::Red);
 
-	ds->DrawText("Hello", 0, 0, Colors::Red);
 	/*END OF RENDERING*/
-
+//	ds->FillRectangle(0,0, sdk::WindowWidth, sdk::WindowHeight,Colors::White);
 
 	ds->Flush();
 
 	CanvasObject->SwapChain->Present();
 
-	ds->Clear(Colors::Transparent);
 }
 
 
