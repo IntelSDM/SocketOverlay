@@ -53,9 +53,7 @@ Overlay::Overlay()
 	titlebar->ButtonPressedBackgroundColor = Colors::Transparent;
 	titlebar->ButtonHoverBackgroundColor = Colors::Transparent;
 }
-POINT MousePosition;
-int mouseX = 0;
-int mouseY = 0;
+
 //You can just pass the CanvasObject directly into this but I used it in other places also
 void RenderingThread()
 {
@@ -63,7 +61,7 @@ void RenderingThread()
 	while (true) {
 		ds->Clear(Colors::Transparent);
 		/* RENDER*/
-		std::string test = std::to_string(mouseX) + "x" + std::to_string(mouseY);
+		std::string test = std::to_string(sdk::WindowWidth) + "x" + std::to_string(sdk::WindowHeight);
 		std::wstring wideText(test.begin(), test.end());
 		Platform::String^ text = ref new Platform::String(wideText.c_str());
 
@@ -78,27 +76,7 @@ void RenderingThread()
 	}
 }
 
-LRESULT CALLBACK GlobalWndProcHook(int nCode, WPARAM wParam, LPARAM lParam)
-{
-	// Process the input messages here
-	// ...
-	if (nCode == HC_ACTION)
-	{
-		// Extract the message details
-		CWPSTRUCT* cwp = reinterpret_cast<CWPSTRUCT*>(lParam);
-		UINT message = cwp->message;
 
-		if (message == WM_MOUSEMOVE)
-		{
-			// Extract the mouse position
-			mouseX = GET_X_LPARAM(cwp->lParam);
-			mouseY = GET_Y_LPARAM(cwp->lParam);
-
-		}
-	}
-	// Call the next hook in the hook chain
-	return CallNextHookEx(NULL, nCode, wParam, lParam);
-}
 
 
 
@@ -112,9 +90,6 @@ void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI:
 	//lets use this it is way better for what we want
 	sdk::WindowWidth = (float)Window::Current->CoreWindow->Bounds.Width;
 	sdk::WindowHeight = (float)Window::Current->CoreWindow->Bounds.Height;
-
-	HHOOK hook = SetWindowsHookEx(WH_CALLWNDPROC, GlobalWndProcHook, NULL, 0);
-	UnhookWindowsHookEx(hook);
 
 	std::thread renderthread(RenderingThread);
 	renderthread.detach();

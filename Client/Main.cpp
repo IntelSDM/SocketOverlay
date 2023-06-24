@@ -1,5 +1,6 @@
 #include "pch.h"
-void Main()
+
+void main()
 {
 
 }

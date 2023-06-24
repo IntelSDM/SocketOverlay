@@ -1,9 +1,4 @@
 #pragma once
-
-
-
-#include <collection.h>
-#include <ppltasks.h>
 #include <windowsx.h>
 #include <Windows.h>
 #include <string>
