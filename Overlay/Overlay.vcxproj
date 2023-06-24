@@ -214,15 +214,15 @@
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="Misc\Pch\pch.h" />
-    <ClInclude Include="Windows\Overlay.xaml.h">
-      <DependentUpon>Windows\Overlay.xaml</DependentUpon>
+    <ClInclude Include="Overlay.xaml.h">
+      <DependentUpon>Overlay.xaml</DependentUpon>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Windows\Overlay.xaml">
+    <Page Include="Overlay.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
@@ -301,8 +301,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="Misc\Pch\pch.cpp" />
-    <ClCompile Include="Windows\Overlay.xaml.cpp">
-      <DependentUpon>Windows\Overlay.xaml</DependentUpon>
+    <ClCompile Include="Overlay.xaml.cpp">
+      <DependentUpon>Overlay.xaml</DependentUpon>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

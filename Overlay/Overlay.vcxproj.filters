@@ -176,7 +176,7 @@
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Windows\Overlay.xaml" />
+    <Page Include="Overlay.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

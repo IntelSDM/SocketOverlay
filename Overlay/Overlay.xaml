@@ -12,6 +12,7 @@
         <canvas:CanvasSwapChainPanel x:Name="canvasSwapChainPanel" Loaded="canvasSwapChainPanel_Loaded">
             <CaptureElement/>
         </canvas:CanvasSwapChainPanel>
+
     </Grid>
 
 </Page>
