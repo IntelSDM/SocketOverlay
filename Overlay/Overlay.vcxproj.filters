@@ -12,10 +12,12 @@
   <ItemGroup>
     <ClCompile Include="App.xaml.cpp" />
     <ClCompile Include="Misc\Pch\pch.cpp" />
+    <ClCompile Include="Misc\Input.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.xaml.h" />
     <ClInclude Include="Misc\Pch\pch.h" />
+    <ClInclude Include="Misc\Input.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png">

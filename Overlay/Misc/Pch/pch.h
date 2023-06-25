@@ -24,5 +24,6 @@
 #include <collection.h>
 #include <ppltasks.h>
 #include <windowsx.h>
+#include <psapi.h>
 
 #include "App.xaml.h"

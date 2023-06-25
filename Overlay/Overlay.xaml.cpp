@@ -4,7 +4,8 @@
 #include <thread>
 #include <string>
 #include "pch.h"
-using namespace std;
+#include "Input.h"
+
 
 using namespace Cheat;
 using namespace Platform;
@@ -53,18 +54,20 @@ Overlay::Overlay()
 	titlebar->ButtonPressedBackgroundColor = Colors::Transparent;
 	titlebar->ButtonHoverBackgroundColor = Colors::Transparent;
 }
-
+bool test123 = false;
 //You can just pass the CanvasObject directly into this but I used it in other places also
 void RenderingThread()
 {
 	static auto ds = CanvasObject->SwapChain->CreateDrawingSession(Colors::Transparent);
-	while (true) {
+	while (true) 
+	{
 		ds->Clear(Colors::Transparent);
 		/* RENDER*/
+
 		std::string test = std::to_string(sdk::WindowWidth) + "x" + std::to_string(sdk::WindowHeight);
 		std::wstring wideText(test.begin(), test.end());
 		Platform::String^ text = ref new Platform::String(wideText.c_str());
-
+	
 		ds->DrawText(text, 0, 0, Colors::Red);
 
 		/*END OF RENDERING*/
@@ -76,7 +79,16 @@ void RenderingThread()
 	}
 }
 
+void GetKey()
+{
+	while (true)
+	{
 
+		if ((GetKeyState(VK_RBUTTON) & 0x01) != 0)
+			test123 = true;
+	}
+
+}
 
 
 
@@ -94,5 +106,6 @@ void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI:
 	std::thread renderthread(RenderingThread);
 	renderthread.detach();
 
-
+	std::thread keytest(GetKey);
+	keytest.detach();
 }

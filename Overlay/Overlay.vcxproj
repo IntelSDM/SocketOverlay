@@ -213,6 +213,7 @@
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="Misc\Input.h" />
     <ClInclude Include="Misc\Pch\pch.h" />
     <ClInclude Include="Overlay.xaml.h">
       <DependentUpon>Overlay.xaml</DependentUpon>
@@ -300,6 +301,7 @@
     <ClCompile Include="App.xaml.cpp">
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
+    <ClCompile Include="Misc\Input.cpp" />
     <ClCompile Include="Misc\Pch\pch.cpp" />
     <ClCompile Include="Overlay.xaml.cpp">
       <DependentUpon>Overlay.xaml</DependentUpon>
