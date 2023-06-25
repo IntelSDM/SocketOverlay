@@ -1,11 +1,11 @@
 ﻿//#include "pch.h"
+#include "pch.h"
 #include "Overlay.xaml.h"
 #include <TlHelp32.h>
 #include <thread>
 #include <string>
-#include "pch.h"
 #include "Input.h"
-
+#include "Sockets.h"
 
 using namespace Cheat;
 using namespace Platform;
@@ -41,6 +41,7 @@ namespace sdk
 	float WindowHeight;
 }
 
+
 Overlay::Overlay()
 {
 	InitializeComponent();
@@ -60,8 +61,10 @@ bool test123 = false;
 void RenderingThread()
 {
 	static auto ds = CanvasObject->SwapChain->CreateDrawingSession(Colors::Transparent);
+
 	while (true) 
 	{
+		
 		ds->Clear(Colors::Transparent);
 		/* RENDER*/
 
@@ -79,6 +82,7 @@ void RenderingThread()
 	CanvasObject->SwapChain->Present();
 	if ((GetKeyState(VK_RBUTTON) & 0x01) != 0)
 		test123 = true;
+	
 	}
 }
 
@@ -94,7 +98,18 @@ void GetKey()
 
 }
 
+void ListeningThread()
+{
 
+	/*
+	So we have a listening thread incase lets say the client disconnects and restarts.
+	In websockets you cant just see if a thread is closed
+	Also the while true is basically exitted, so accept clients is called and then its stuck there until a client connects
+	So no additional load is put on the cpu. Optimized stuff microsoft.
+	*/
+	
+	
+}
 
 void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
@@ -106,10 +121,13 @@ void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI:
 	//lets use this it is way better for what we want
 	sdk::WindowWidth = (float)Window::Current->CoreWindow->Bounds.Width;
 	sdk::WindowHeight = (float)Window::Current->CoreWindow->Bounds.Height;
+	CreateSockets();
+
 
 	std::thread renderthread(RenderingThread);
 	renderthread.detach();
-
+	std::thread listernerthread(ListeningThread);
+	listernerthread.detach();
 	//std::thread keytest(GetKey);
 	//keytest.detach();
 }

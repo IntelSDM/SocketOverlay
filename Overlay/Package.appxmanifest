@@ -6,7 +6,11 @@
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
- IgnorableNamespaces="uap uap3 mp">
+ xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
+ xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2"
+ xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
+ xmlns:uap6="http://schemas.microsoft.com/appx/manifest/uap/windows10/6"
+ IgnorableNamespaces="uap uap3 mp uap4 uap2 iot uap6">
 
   <Identity
     Name="overlay"
@@ -108,6 +112,41 @@
     <rescap:Capability Name="runFullTrust" />
     <rescap:Capability Name="allowElevation" />
     <rescap:Capability Name="broadFileSystemAccess" />
+    <uap:Capability Name="voipCall"/>
+    <uap:Capability Name="videosLibrary"/>
+    <uap3:Capability Name="userNotificationListener"/>
+    <uap4:Capability Name="userDataTasks"/>
+    <uap:Capability Name="userAccountInformation"/>
+    <uap2:Capability Name="spatialPerception"/>
+    <iot:Capability Name="systemManagement"/>
+    <uap:Capability Name="sharedUserCertificates"/>
+    <uap:Capability Name="removableStorage"/>
+    <uap3:Capability Name="remoteSystem"/>
+    <Capability Name="privateNetworkClientServer"/>
+    <uap:Capability Name="picturesLibrary"/>
+    <uap2:Capability Name="phoneCallHistoryPublic"/>
+    <uap:Capability Name="phoneCall"/>
+    <uap4:Capability Name="offlineMapsManagement"/>
+    <uap:Capability Name="objects3D"/>
+    <uap:Capability Name="musicLibrary"/>
+    <iot:Capability Name="lowLevelDevices"/>
+    <Capability Name="internetClientServer"/>
+    <uap6:Capability Name="graphicsCapture"/>
+    <uap:Capability Name="enterpriseAuthentication"/>
+    <uap:Capability Name="contacts"/>
+    <uap:Capability Name="chat"/>
+    <uap:Capability Name="blockedChatMessages"/>
+    <uap3:Capability Name="backgroundMediaPlayback"/>
+    <uap:Capability Name="appointments"/>
+    <Capability Name="allJoyn"/>
+    <DeviceCapability Name="webcam"/>
+    <DeviceCapability Name="proximity"/>
+    <DeviceCapability Name="pointOfService"/>
+    <DeviceCapability Name="microphone"/>
+    <DeviceCapability Name="lowLevel"/>
+    <DeviceCapability Name="location"/>
+    <DeviceCapability Name="gazeInput"/>
+    <DeviceCapability Name="bluetooth"/>
   </Capabilities>
 
 </Package>
