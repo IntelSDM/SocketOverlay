@@ -7,14 +7,12 @@ void CreateSockets()
     int wsResult = WSAStartup(ver, &data);
     if (wsResult != 0)
     {
-     //   std::cout << "Can't Connect1\n";
         return;
     }
 
     SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock == INVALID_SOCKET)
     {
-     //   std::cout << "Can't Connect2\n";
         WSACleanup();
         return;
     }
@@ -26,7 +24,6 @@ void CreateSockets()
 
     if (connect(sock, reinterpret_cast<sockaddr*>(&hint), sizeof(hint)) == SOCKET_ERROR)
     {
-       // std::cout << "Can't Connect3\n";
         closesocket(sock);
         WSACleanup();
         return;
