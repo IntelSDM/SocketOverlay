@@ -1,2 +1,3 @@
 #pragma once
-void CreateSocket();
+void CreateSockets();
+void AcceptClients();

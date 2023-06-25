@@ -40,7 +40,6 @@ void AcceptClients()
 void main()
 {
     CreateSockets();
-    AcceptClients();
     std::thread listernerthread(AcceptClients);
     listernerthread.detach();
 }
