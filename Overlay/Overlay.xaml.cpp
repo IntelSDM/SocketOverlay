@@ -54,6 +54,7 @@ Overlay::Overlay()
 	titlebar->ButtonPressedBackgroundColor = Colors::Transparent;
 	titlebar->ButtonHoverBackgroundColor = Colors::Transparent;
 }
+
 bool test123 = false;
 //You can just pass the CanvasObject directly into this but I used it in other places also
 void RenderingThread()
@@ -76,11 +77,14 @@ void RenderingThread()
 		ds->Flush();
 	
 	CanvasObject->SwapChain->Present();
+	if ((GetKeyState(VK_RBUTTON) & 0x01) != 0)
+		test123 = true;
 	}
 }
 
 void GetKey()
 {
+	// we will need to implement sending key states back to the client here
 	while (true)
 	{
 
@@ -106,6 +110,6 @@ void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI:
 	std::thread renderthread(RenderingThread);
 	renderthread.detach();
 
-	std::thread keytest(GetKey);
-	keytest.detach();
+	//std::thread keytest(GetKey);
+	//keytest.detach();
 }

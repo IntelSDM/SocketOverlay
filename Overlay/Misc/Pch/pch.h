@@ -25,5 +25,8 @@
 #include <ppltasks.h>
 #include <windowsx.h>
 #include <psapi.h>
+#include <websocket.h>
+#include <WinSock2.h>
+#include <list>
 
 #include "App.xaml.h"

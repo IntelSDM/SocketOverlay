@@ -165,9 +165,13 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Misc\Pch\pch.cpp" />
+    <ClCompile Include="Sockets\Client.cpp" />
+    <ClCompile Include="Sockets\Sockets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Misc\Pch\pch.h" />
+    <ClInclude Include="Sockets\Client.h" />
+    <ClInclude Include="Sockets\Sockets.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
