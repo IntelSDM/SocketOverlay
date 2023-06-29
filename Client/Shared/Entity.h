@@ -7,7 +7,7 @@ public:
 	bool DrawName = true;
 	std::map<std::string, DWORD> Colour = { {"test123",0},{"test321",1}};
 
-    void to_json(json& j) const
+    void ToJson(json& j) const
     {
         j = json{
             {"DrawBox", DrawBox},
@@ -17,7 +17,7 @@ public:
     }
 
     // Convert JSON to Entity object
-    void from_json(const json& j)
+    void FromJson(const json& j)
     {
         if (j.contains("DrawBox"))
             DrawBox = j["DrawBox"];
