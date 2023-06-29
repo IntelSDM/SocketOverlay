@@ -10,4 +10,5 @@
 #include <Ws2tcpip.h>
 #include <list>
 #include <thread>
-
+#include "json.hpp"
+using json = nlohmann::json;

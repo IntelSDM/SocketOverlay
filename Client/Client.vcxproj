@@ -165,6 +165,8 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Misc\Pch\pch.cpp" />
+    <ClCompile Include="Shared\Config.h" />
+    <ClCompile Include="Shared\Entity.h" />
     <ClCompile Include="Sockets\Client.cpp" />
     <ClCompile Include="Sockets\Sockets.cpp" />
   </ItemGroup>
