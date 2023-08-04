@@ -34,12 +34,9 @@ using namespace Windows::UI::ViewManagement;
 using namespace Windows::ApplicationModel::Core;
 
 Microsoft::Graphics::Canvas::UI::Xaml::CanvasSwapChainPanel^ CanvasObject;
+float WindowWidth;
+float WindowHeight;
 
-namespace sdk
-{
-	float WindowWidth;
-	float WindowHeight;
-}
 
 
 Overlay::Overlay()
@@ -56,7 +53,6 @@ Overlay::Overlay()
 	titlebar->ButtonHoverBackgroundColor = Colors::Transparent;
 }
 
-bool test123 = false;
 //You can just pass the CanvasObject directly into this but I used it in other places also
 void RenderingThread()
 {
@@ -68,9 +64,9 @@ void RenderingThread()
 		ds->Clear(Colors::Transparent);
 		/* RENDER*/
 
-		std::string test = std::to_string(sdk::WindowWidth) + "x" + std::to_string(sdk::WindowHeight);
-		std::wstring wideText(test.begin(), test.end());
-		Platform::String^ text = ref new Platform::String(wideText.c_str());
+		std::string test = std::to_string(WindowWidth) + "x" + std::to_string(WindowHeight);
+		std::wstring widetext(test.begin(), test.end());
+		Platform::String^ text = ref new Platform::String(widetext.c_str());
 	
 		ds->DrawText(text, 0, 0, Colors::Red);
 
@@ -80,22 +76,9 @@ void RenderingThread()
 		ds->Flush();
 	
 	CanvasObject->SwapChain->Present();
-	if ((GetKeyState(VK_RBUTTON) & 0x01) != 0)
-		test123 = true;
+	
 	
 	}
-}
-
-void GetKey()
-{
-	// we will need to implement sending key states back to the client here
-	while (true)
-	{
-
-		if ((GetKeyState(VK_RBUTTON) & 0x01) != 0)
-			test123 = true;
-	}
-
 }
 
 void ListeningThread()
@@ -119,8 +102,8 @@ void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI:
 	CanvasObject = canvasSwapChainPanel;
 
 	//lets use this it is way better for what we want
-	sdk::WindowWidth = (float)Window::Current->CoreWindow->Bounds.Width;
-	sdk::WindowHeight = (float)Window::Current->CoreWindow->Bounds.Height;
+	WindowWidth = (float)Window::Current->CoreWindow->Bounds.Width;
+	WindowHeight = (float)Window::Current->CoreWindow->Bounds.Height;
 	CreateSockets();
 
 
@@ -128,6 +111,4 @@ void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI:
 	renderthread.detach();
 	std::thread listernerthread(ListeningThread);
 	listernerthread.detach();
-	//std::thread keytest(GetKey);
-	//keytest.detach();
 }
