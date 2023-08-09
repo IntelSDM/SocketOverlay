@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Client.h"
-
+#include "Graphics.h"
+#include "Drawing.h"
 constexpr int BufferSize = 4096;
 void Client::SendText(std::string Text)
 {
@@ -19,11 +20,29 @@ void Client::MessageHandler()
 		std::string type = jsoned["Type"];
 		if (type == "Rectangle")
 		{
-			RectangleJson rectangle(0.0f,0.0f,0.0f,0.0f);
-			rectangle.FromJson(type);
-			RectangleList.push_back(rectangle);
+		//	RectangleJson rectangle(0.0f, 0.0f, 0.0f, 0.0f);
+		//	rectangle.FromJson(type);
+		//	RectangleList.push_back(rectangle);
+			test = message;
 		}
 	}
+}
+void Client::DrawingHandler()
+{
+	for (RectangleJson jsonobject : Client::RectangleList)
+	{
+		int x = jsonobject.X;
+		int y = jsonobject.Y;
+		int width = jsonobject.W;
+		int height = jsonobject.H;
+
+		SwapChain->FillRectangle(x, y, width, height, Colors::Red);
+	}
+
+	std::wstring widetext(test.begin(), test.end());
+	Platform::String^ text = ref new Platform::String(widetext.c_str());
+	SwapChain->DrawText(text, 100, 100, Colors::Red);
+	
 }
 std::string Client::ReceiveText()
 {

@@ -4,6 +4,7 @@
 #include <TlHelp32.h>
 #include <thread>
 #include <string>
+#include "Graphics.h"
 #include "Input.h"
 #include "Sockets.h"
 #include "Rectangle.h"
@@ -36,7 +37,7 @@ using namespace Windows::ApplicationModel::Core;
 Microsoft::Graphics::Canvas::UI::Xaml::CanvasSwapChainPanel^ CanvasObject;
 float WindowWidth;
 float WindowHeight;
-
+CanvasDrawingSession^ SwapChain;
 
 
 Overlay::Overlay()
@@ -53,40 +54,32 @@ Overlay::Overlay()
 	titlebar->ButtonHoverBackgroundColor = Colors::Transparent;
 }
 
+std::list<RectangleJson> RectangleList = { RectangleJson(0,0,100,100), };
 //You can just pass the CanvasObject directly into this but I used it in other places also
 void RenderingThread()
 {
-	static auto ds = CanvasObject->SwapChain->CreateDrawingSession(Colors::Transparent);
-
+	SwapChain = CanvasObject->SwapChain->CreateDrawingSession(Colors::Transparent);
+	int i = 0;
 	while (true) 
 	{
-		
-		ds->Clear(Colors::Transparent);
+		i++;
+		SwapChain->Clear(Colors::Transparent);
 		/* RENDER*/
-
-		std::string test = std::to_string(WindowWidth) + "x" + std::to_string(WindowHeight);
+		if (&TCPClient)
+		{
+		std::string test = std::to_string(i) + "x" + std::to_string(TCPClient->RectangleList.size());
 		std::wstring widetext(test.begin(), test.end());
 		Platform::String^ text = ref new Platform::String(widetext.c_str());
 	
-		ds->DrawText(text, 0, 0, Colors::Red);
-		if (TCPClient)
-		{
-			for (RectangleJson jsonobject : TCPClient->RectangleList)
-			{
-				int x = jsonobject.X;
-				int y = jsonobject.Y;
-				int width = jsonobject.W;
-				int height = jsonobject.H;
-
-				ds->FillRectangle(x, y, width, height, Colors::Red);
-			}
+		SwapChain->DrawText(text, 0, 0, Colors::Red);
+		TCPClient->DrawingHandler();
 		}
+		
 		/*END OF RENDERING*/
-	//	ds->FillRectangle(0,0, sdk::WindowWidth, sdk::WindowHeight,Colors::White);
 
-		ds->Flush();
+		SwapChain->Flush();
 	
-	CanvasObject->SwapChain->Present();
+		CanvasObject->SwapChain->Present();
 		
 	
 	}
