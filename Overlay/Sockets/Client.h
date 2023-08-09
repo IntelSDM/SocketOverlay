@@ -17,4 +17,5 @@ public:
 private:
 	std::string test;
 	std::mutex RectangleListMutex;
+	std::string Client::ReceiveJson();
 };

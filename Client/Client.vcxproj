@@ -172,7 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Misc\Pch\pch.h" />
-    <ClInclude Include="Shared\Rectangle.h" />
+    <ClInclude Include="Shared\RectangleJson.h" />
     <ClInclude Include="Sockets\Client.h" />
     <ClInclude Include="Sockets\Sockets.h" />
   </ItemGroup>

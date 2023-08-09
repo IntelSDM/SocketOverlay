@@ -3,6 +3,7 @@
 #include "Config.h"
 #include "Rectangle.h"
 #include "Client.h"
+#include <random>
 Config ConfigInstance;
 #pragma comment(lib, "ws2_32.lib")
 
@@ -62,10 +63,14 @@ void main()
     listernerthread.detach();
     while (true)
     {
-       
+        std::random_device rd;
+        std::mt19937 generator(rd());
+        std::uniform_int_distribution<int> distribution(0, 1000);
+        int randx = distribution(generator);
+        int randy = distribution(generator);
         if (TCPClient)
         {
-            RectangleJson rectjson1(100.0f, 100.0f, 600.0f, 300.0f);
+            RectangleJson rectjson1(randx, randy, 10, 10);
             json js;
             rectjson1.ToJson(js);
             TCPClient->SendText(js.dump());

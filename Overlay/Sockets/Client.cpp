@@ -46,7 +46,8 @@ void Client::DrawingHandler()
 {
 	{ // locked region
 		std::lock_guard<std::mutex> lock(RectangleListMutex);
-		for (RectangleJson jsonobject : Client::RectangleList)
+		auto cachedlist = Client::RectangleList;
+		for (RectangleJson jsonobject : cachedlist)
 		{
 			int x = jsonobject.X;
 			int y = jsonobject.Y;

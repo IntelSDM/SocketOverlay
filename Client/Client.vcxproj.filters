@@ -44,7 +44,7 @@
     <ClInclude Include="Sockets\Sockets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shared\Rectangle.h">
+    <ClInclude Include="Shared\RectangleJson.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
