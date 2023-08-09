@@ -20,10 +20,10 @@ void Client::MessageHandler()
 		std::string type = jsoned["Type"];
 		if (type == "Rectangle")
 		{
-		//	RectangleJson rectangle(0.0f, 0.0f, 0.0f, 0.0f);
-		//	rectangle.FromJson(type);
-		//	RectangleList.push_back(rectangle);
-			test = message;
+			RectangleJson rectangle(0.0f, 0.0f, 0.0f, 0.0f);
+			rectangle.FromJson(jsoned);
+			RectangleList.push_back(rectangle);
+		
 		}
 	}
 }

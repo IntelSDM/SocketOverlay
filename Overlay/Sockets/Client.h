@@ -13,7 +13,7 @@ public:
 	void SendText(std::string Text);
 	std::string ReceiveText();
 
-	std::list<RectangleJson> RectangleList = {RectangleJson(0,0,100,100),};
+	std::list<RectangleJson> RectangleList;
 private:
 	std::string test;
 };
