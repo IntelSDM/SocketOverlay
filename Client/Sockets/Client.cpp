@@ -2,10 +2,10 @@
 #include "Client.h"
 
 constexpr int BufferSize = 4096;
-void Client::SendText(std::string Text)
+void Client::SendText(std::string text)
 {
-	std::string Send = Text;
-	ByteArray plaintext(Send.begin(), Send.end());
+	text += "|";
+	ByteArray plaintext(text.begin(), text.end());
 	int32_t Result = send(Client::Socket, (char*)plaintext.data(), (int)plaintext.size(), 0);
 }
 std::string Client::ReceiveText()

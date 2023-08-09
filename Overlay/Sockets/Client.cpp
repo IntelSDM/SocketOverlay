@@ -3,42 +3,61 @@
 #include "Graphics.h"
 #include "Drawing.h"
 constexpr int BufferSize = 4096;
-void Client::SendText(std::string Text)
+void Client::SendText(std::string text)
 {
-	std::string Send = Text;
-	ByteArray plaintext(Send.begin(), Send.end());
+	ByteArray plaintext(text.begin(), text.end());
 	int32_t Result = send(Client::Socket, (char*)plaintext.data(), (int)plaintext.size(), 0);
 }
 void Client::MessageHandler()
 {
+	bool jump = false;
 	while (true)
 	{
 		std::string message = Client::ReceiveText(); // halts everything here, goes to recieve a message
 		if (message.size() == 0)
 			return;
-		json jsoned = json::parse(message);
-		std::string type = jsoned["Type"];
-		if (type == "Rectangle")
-		{
-			RectangleJson rectangle(0.0f, 0.0f, 0.0f, 0.0f);
-			rectangle.FromJson(jsoned);
-			RectangleList.push_back(rectangle);
-		
+		message = message + "\n";
+		std::wstring wideString(message.begin(), message.end());
+
+		// Output the wide-character string to the debug output
+		OutputDebugString(wideString.c_str());
+		try {
+				json jsoned = json::parse(message);
+			std::string type = jsoned["Type"];
+				if (type == "Rectangle")
+				{
+					RectangleJson rectangle(0.0f, 0.0f, 0.0f, 0.0f);
+					rectangle.FromJson(jsoned);
+
+					{
+						std::lock_guard<std::mutex> lock(RectangleListMutex);
+						RectangleList.push_back(rectangle);
+					}
+				}
 		}
+		catch (const json::exception& e) {
+			// Handle the JSON parsing error here
+			
+		}
+	
 	}
 }
 void Client::DrawingHandler()
 {
-	for (RectangleJson jsonobject : Client::RectangleList)
-	{
-		int x = jsonobject.X;
-		int y = jsonobject.Y;
-		int width = jsonobject.W;
-		int height = jsonobject.H;
+	{ // locked region
+		std::lock_guard<std::mutex> lock(RectangleListMutex);
+		for (RectangleJson jsonobject : Client::RectangleList)
+		{
+			int x = jsonobject.X;
+			int y = jsonobject.Y;
+			int width = jsonobject.W;
+			int height = jsonobject.H;
 
-		SwapChain->FillRectangle(x, y, width, height, Colors::Red);
+			SwapChain->FillRectangle(x, y, width, height, Colors::Red);
+		}
+
+		RectangleList.clear();
 	}
-
 	std::wstring widetext(test.begin(), test.end());
 	Platform::String^ text = ref new Platform::String(widetext.c_str());
 	SwapChain->DrawText(text, 100, 100, Colors::Red);
@@ -60,7 +79,14 @@ std::string Client::ReceiveText()
 		{
 			ReceivedBytes.push_back(RecvBuffer[n]);
 		}
+		auto breaker = std::find(ReceivedBytes.begin(), ReceivedBytes.end(), '|');
 
+		if (breaker != ReceivedBytes.end())
+		{
+			// Found the delimiter, construct the string up to the delimiter
+			std::string str(ReceivedBytes.begin(), breaker);
+			return str;
+		}
 		if (Received <= BufferSize)
 			break;
 

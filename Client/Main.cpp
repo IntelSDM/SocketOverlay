@@ -40,16 +40,15 @@ void AcceptClients()
             Client client;
             client.Socket = clientSocket;
             TCPClient = &client;
-            Sleep(1000);
-            RectangleJson rectjson1(100.0f, 100.0f, 600.0f, 300.0f);
-            json js;
-            rectjson1.ToJson(js);
-            TCPClient->SendText(js.dump());
+           
         }
-
+      
     }
 }
-
+void SendRectangles()
+{
+   
+}
 void main()
 {	
 	json j;
@@ -58,6 +57,19 @@ void main()
 
 	CreateServer();
 	std::thread listernerthread(AcceptClients);
-	listernerthread.join();
-	
+  //  std::thread drawthread(SendRectangles);
+//	drawthread.detach();
+    listernerthread.detach();
+    while (true)
+    {
+       
+        if (TCPClient)
+        {
+            RectangleJson rectjson1(100.0f, 100.0f, 600.0f, 300.0f);
+            json js;
+            rectjson1.ToJson(js);
+            TCPClient->SendText(js.dump());
+
+        }
+    }
 }

@@ -16,4 +16,5 @@ public:
 	std::list<RectangleJson> RectangleList;
 private:
 	std::string test;
+	std::mutex RectangleListMutex;
 };
