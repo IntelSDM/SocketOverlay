@@ -1,3 +1,5 @@
 #pragma once
-void CreateSockets();
+#include <Client.h>
+void CreateServer();
 void AcceptClients();
+extern Client* TCPClient;

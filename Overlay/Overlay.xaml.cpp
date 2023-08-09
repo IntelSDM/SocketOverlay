@@ -6,7 +6,7 @@
 #include <string>
 #include "Input.h"
 #include "Sockets.h"
-
+#include "Rectangle.h"
 using namespace Cheat;
 using namespace Platform;
 using namespace Windows::Foundation;
@@ -69,30 +69,29 @@ void RenderingThread()
 		Platform::String^ text = ref new Platform::String(widetext.c_str());
 	
 		ds->DrawText(text, 0, 0, Colors::Red);
+		if (TCPClient)
+		{
+			for (RectangleJson jsonobject : TCPClient->RectangleList)
+			{
+				int x = jsonobject.X;
+				int y = jsonobject.Y;
+				int width = jsonobject.W;
+				int height = jsonobject.H;
 
+				ds->FillRectangle(x, y, width, height, Colors::Red);
+			}
+		}
 		/*END OF RENDERING*/
 	//	ds->FillRectangle(0,0, sdk::WindowWidth, sdk::WindowHeight,Colors::White);
 
 		ds->Flush();
 	
 	CanvasObject->SwapChain->Present();
-	
+		
 	
 	}
 }
 
-void ListeningThread()
-{
-
-	/*
-	So we have a listening thread incase lets say the client disconnects and restarts.
-	In websockets you cant just see if a thread is closed
-	Also the while true is basically exitted, so accept clients is called and then its stuck there until a client connects
-	So no additional load is put on the cpu. Optimized stuff microsoft.
-	*/
-	
-	
-}
 
 void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
@@ -106,9 +105,6 @@ void Overlay::canvasSwapChainPanel_Loaded(Platform::Object^ sender, Windows::UI:
 	WindowHeight = (float)Window::Current->CoreWindow->Bounds.Height;
 	CreateSockets();
 
-
 	std::thread renderthread(RenderingThread);
 	renderthread.detach();
-	std::thread listernerthread(ListeningThread);
-	listernerthread.detach();
 }

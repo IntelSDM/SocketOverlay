@@ -1,9 +1,19 @@
 #pragma once
+#include "Rectangle.h"
+using ByteArray = std::vector<uint8_t>;
 class Client
 {
-protected:
-	SOCKET Sock;
+
 public:
-	Client(SOCKET socket);
+	SOCKET Socket;
+	std::string IpAddress;
+	bool SendingBytes = false;
+
+	void MessageHandler();
+	void SendText(std::string Text);
+	std::string ReceiveText();
+
+	std::list<RectangleJson> RectangleList;
+private:
 
 };

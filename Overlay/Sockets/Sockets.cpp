@@ -1,5 +1,10 @@
 #include "pch.h"
 #pragma comment(lib, "ws2_32.lib")
+#include "Client.h"
+#include "Sockets.h"
+sockaddr_in hint;
+SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
+Client* TCPClient;
 void CreateSockets()
 {
     WSADATA data;
@@ -24,8 +29,12 @@ void CreateSockets()
 
     if (connect(sock, reinterpret_cast<sockaddr*>(&hint), sizeof(hint)) == SOCKET_ERROR)
     {
-        closesocket(sock);
-        WSACleanup();
-        return;
+        Client client;
+        client.Socket = sock;
+        TCPClient = &client;
+        std::thread thread([&] {client.MessageHandler(); });    // create a thread for the client
+     //   closesocket(sock);
+    //    WSACleanup();
+    //    return;
     }
 }

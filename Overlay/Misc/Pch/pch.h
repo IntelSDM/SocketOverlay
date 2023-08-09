@@ -29,4 +29,7 @@
 #include <ws2tcpip.h>
 #include <list>
 
+#include "json.hpp"
+using json = nlohmann::json;
+
 #include "App.xaml.h"
