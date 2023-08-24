@@ -1,11 +1,7 @@
 #include "pch.h"
-#pragma comment(lib, "ws2_32.lib")
-#include "Config.h"
-#include "Rectangle.h"
+#include "RectangleJson.h"
 #include "Client.h"
-#include <random>
-Config ConfigInstance;
-#pragma comment(lib, "ws2_32.lib")
+
 
 sockaddr_in HInt;
 SOCKET Listening;
@@ -46,35 +42,39 @@ void AcceptClients()
       
     }
 }
-void SendRectangles()
-{
-   
-}
+std::list<RectangleJson> RectList;
 void main()
 {	
-	json j;
-	ConfigInstance.ToJson(j);
-	std::cout << j.dump() << "\n";
 
 	CreateServer();
 	std::thread listernerthread(AcceptClients);
-  //  std::thread drawthread(SendRectangles);
-//	drawthread.detach();
     listernerthread.detach();
     while (true)
     {
-        std::random_device rd;
-        std::mt19937 generator(rd());
-        std::uniform_int_distribution<int> distribution(0, 1000);
-        int randx = distribution(generator);
-        int randy = distribution(generator);
+        RectList.clear();
+        for (int i = 0; i <= 10; i++)
+        {
+            std::random_device rd;
+            std::mt19937 generator(rd());
+            std::uniform_int_distribution<int> distribution(0, 1000);
+            int randx = distribution(generator);
+            int randy = distribution(generator);
+            RectangleJson rectangle = RectangleJson(randx, randy, 10, 10);
+           
+            RectList.push_back(rectangle);
+        }
+
         if (TCPClient)
         {
-            RectangleJson rectjson1(randx, randy, 10, 10);
-            json js;
-            rectjson1.ToJson(js);
-            TCPClient->SendText(js.dump());
+            json jsoned;
+            for (const RectangleJson& rectangle : RectList) {
+                json entry;
+                rectangle.ToJson(entry);
+                jsoned.push_back(entry);
+            }
 
+                TCPClient->SendText(jsoned.dump());
+            
         }
     }
 }

@@ -11,6 +11,10 @@ public:
         W = width;
         H = height;
     }
+    RectangleJson()
+    {
+
+    }
     std::string Type = "Rectangle";
     float X;
     float Y;

@@ -10,34 +10,17 @@ void Client::SendText(std::string text)
 }
 void Client::MessageHandler()
 {
-	bool jump = false;
 	while (true)
 	{
 		std::string message = Client::ReceiveText(); // halts everything here, goes to recieve a message
 		if (message.size() == 0)
 			return;
-		message = message + "\n";
-		std::wstring wideString(message.begin(), message.end());
 
-		// Output the wide-character string to the debug output
-		OutputDebugString(wideString.c_str());
-		try {
-				json jsoned = json::parse(message);
-			std::string type = jsoned["Type"];
-				if (type == "Rectangle")
-				{
-					RectangleJson rectangle(0.0f, 0.0f, 0.0f, 0.0f);
-					rectangle.FromJson(jsoned);
-
-					{
-						std::lock_guard<std::mutex> lock(RectangleListMutex);
-						RectangleList.push_back(rectangle);
-					}
-				}
-		}
-		catch (const json::exception& e) {
-			// Handle the JSON parsing error here
-			
+		json jsoned = json::parse(message);
+		if (jsoned[0]["Type"] == "Rectangle")
+		{
+			std::lock_guard<std::mutex> lock(RectangleListMutex);
+			RectangleList = jsoned;
 		}
 	
 	}
@@ -46,22 +29,19 @@ void Client::DrawingHandler()
 {
 	{ // locked region
 		std::lock_guard<std::mutex> lock(RectangleListMutex);
-		auto cachedlist = Client::RectangleList;
-		for (RectangleJson jsonobject : cachedlist)
+		for (json jsonobject : RectangleList)
 		{
-			int x = jsonobject.X;
-			int y = jsonobject.Y;
-			int width = jsonobject.W;
-			int height = jsonobject.H;
+			if (jsonobject["Type"] != "Rectangle")
+				continue;
 
-			SwapChain->FillRectangle(x, y, width, height, Colors::Red);
+			RectangleJson rectjson;
+			rectjson.FromJson(jsonobject);
+
+			SwapChain->FillRectangle(rectjson.X, rectjson.Y, rectjson.W, rectjson.H, Colors::Red);
 		}
 
-		RectangleList.clear();
 	}
-	std::wstring widetext(test.begin(), test.end());
-	Platform::String^ text = ref new Platform::String(widetext.c_str());
-	SwapChain->DrawText(text, 100, 100, Colors::Red);
+
 	
 }
 std::string Client::ReceiveText()

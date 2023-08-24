@@ -7,32 +7,10 @@
 #include "Graphics.h"
 #include "Input.h"
 #include "Sockets.h"
-#include "Rectangle.h"
+#include "RectangleJson.h"
 using namespace Cheat;
 using namespace Platform;
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::UI::Xaml;
-using namespace Windows::UI::Xaml::Controls;
-using namespace Windows::UI::Xaml::Controls::Primitives;
-using namespace Windows::UI::Xaml::Data;
-using namespace Windows::UI::Xaml::Input;
-using namespace Windows::UI::Xaml::Media;
-using namespace Windows::UI::Xaml::Navigation;
-using namespace Windows::UI;
-using namespace Microsoft::Graphics::Canvas::UI::Xaml;
-using namespace Microsoft::Graphics::Canvas;
 
-using namespace Microsoft::Graphics::Canvas;
-using namespace Microsoft::Graphics::Canvas::Text;
-using namespace Microsoft::Graphics::Canvas::UI::Xaml;
-using namespace Microsoft::Gaming::XboxGameBar;
-
-using namespace Windows::Foundation;
-using namespace Windows::UI::Core;
-using namespace Windows::System;
-using namespace Windows::UI::ViewManagement;
-using namespace Windows::ApplicationModel::Core;
 
 Microsoft::Graphics::Canvas::UI::Xaml::CanvasSwapChainPanel^ CanvasObject;
 float WindowWidth;

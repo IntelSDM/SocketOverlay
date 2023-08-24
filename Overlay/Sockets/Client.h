@@ -1,5 +1,5 @@
 #pragma once
-#include "Rectangle.h"
+#include "RectangleJson.h"
 using ByteArray = std::vector<uint8_t>;
 class Client
 {
@@ -13,9 +13,7 @@ public:
 	void SendText(std::string Text);
 	std::string ReceiveText();
 
-	std::list<RectangleJson> RectangleList;
+	std::list<json> RectangleList;
 private:
-	std::string test;
 	std::mutex RectangleListMutex;
-	std::string Client::ReceiveJson();
 };
